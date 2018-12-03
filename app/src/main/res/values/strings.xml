@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WorkoutHelper</string>
+    <string name="WelcomeMessage">Welcome To WorkoutHelper</string>
+    <string name="search_button">ENTER</string>
 </resources>
