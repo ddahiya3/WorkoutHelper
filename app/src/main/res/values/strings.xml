@@ -3,4 +3,5 @@
     <string name="WelcomeMessage">Welcome To WorkoutHelper</string>
     <string name="search_button">ENTER</string>
     <string name="searchresults">Search Results</string>
+    <string name="goback">GO BACK</string>
 </resources>
