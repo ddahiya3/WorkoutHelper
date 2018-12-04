@@ -3,10 +3,12 @@ package com.example.dhruvdahiya.workouthelper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainScreen extends AppCompatActivity {
+    private static final String LOG_TAG = MainScreen.class.getSimpleName();
     private Button button;
 
 
@@ -28,6 +30,7 @@ public class MainScreen extends AppCompatActivity {
     public void openSearchDisplayPage() {
         Intent intent = new Intent(this, searchresultpage.class);
         startActivity(intent);
+        Log.d(LOG_TAG, "Button clicked!");
     }
 
 }

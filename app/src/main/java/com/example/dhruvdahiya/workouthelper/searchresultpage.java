@@ -5,9 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.util.Log;
 
 public class searchresultpage extends AppCompatActivity {
-
+    private static final String LOG_TAG = searchresultpage.class.getSimpleName();
     private Button searchresultpageGoBack;
 
     @Override
@@ -30,5 +31,6 @@ public class searchresultpage extends AppCompatActivity {
     public void goBackToMain() {
         Intent intent = new Intent(this, MainScreen.class);
         startActivity(intent);
+        Log.d(LOG_TAG, "Button clicked!");
     }
 }
