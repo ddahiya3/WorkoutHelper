@@ -6,16 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainScreen">
 
-    <EditText
+    <TextView
         android:id="@+id/editText"
-        android:layout_width="239dp"
+        android:layout_width="289dp"
         android:layout_height="105dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="76dp"
         android:ems="10"
-        android:inputType="textPersonName"
         android:text="@string/WelcomeMessage"
+        android:textSize="40sp"
+        android:textStyle="italic|bold"
+        android:textColor="#000080"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.552"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,5 +40,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for Exercises" />
 </android.support.constraint.ConstraintLayout>
