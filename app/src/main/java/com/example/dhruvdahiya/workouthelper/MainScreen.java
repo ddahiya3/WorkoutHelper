@@ -32,7 +32,7 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
-        mTextViewResult = findViewById(R.id.simpleTextView);
+        mTextViewResult = findViewById(R.id.editText);
         Button enterButton = (Button) findViewById(R.id.enter);
         mQueue = Volley.newRequestQueue(this);
         enterButton.setOnClickListener(new View.OnClickListener() {
@@ -51,14 +51,14 @@ public class MainScreen extends AppCompatActivity {
         Log.d(LOG_TAG, "Button clicked!");
     }
     public void jsonParse() {
-        String url = "https://api.myjson.com/bins/u2gbi";
+        String url = "https://wger.de/api/v2/exercise/?language=2&status=2";
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            JSONArray jsonArray = response.getJSONArray("result");
+                            JSONArray jsonArray = response.getJSONArray("results");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject result = jsonArray.getJSONObject(i);
