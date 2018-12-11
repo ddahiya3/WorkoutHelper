@@ -22,16 +22,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
-public class MainScreen extends AppCompatActivity {
+public class MainScreen extends AppCompatActivity implements Adapter.OnItemClickListener {
     private static final String LOG_TAG = MainScreen.class.getSimpleName();
+
+    public static final String EXTRA_URL = "image";
+    public static final String EXTRA_EXERCISES = "name";
+    public static final String EXTRA_MUSCLES = "muscles";
+    public static final String EXTRA_DESCRIPTION = "description";
 
     private RequestQueue mQueue;
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
     private ArrayList<cards> mList;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,56 +52,51 @@ public class MainScreen extends AppCompatActivity {
         mQueue = Volley.newRequestQueue(this);
 
         jsonParse();
-        /**
-        Button enterButton = (Button) findViewById(R.id.enter);
-        enterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //openSearchDisplayPage();
-            }
-        });
-         **/
+
     }
 
-    /** Called when the user taps the ENTER button */
-    public void openSearchDisplayPage() {
-        Intent intent = new Intent(this, searchresultpage.class);
-        startActivity(intent);
-        Log.d(LOG_TAG, "Button clicked!");
-    }
     public void jsonParse() {
-        String url = "https://wger.de/api/v2/exercise/?language=2&status=2";
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray jsonArray = response.getJSONArray("results");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject results = jsonArray.getJSONObject(i);
-
-                                JSONArray muscles = results.getJSONArray("muscles");
-                                String exerciseName = results.getString("name");
-
-                                mList.add(new cards(exerciseName, convertToList(muscles)));
-                            }
-
-                            mAdapter = new Adapter(MainScreen.this, mList);
-                            mRecyclerView.setAdapter(mAdapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
+        for (int i = 1; i < 10; i++) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-        mQueue.add(request);
+            String url = "https://wger.de/api/v2/exercise/?language=2&page=" + i + "&status=2";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("results");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject results = jsonArray.getJSONObject(i);
+
+                                    JSONArray muscles = results.getJSONArray("muscles");
+                                    String exerciseName = results.getString("name");
+                                    String description = results.getString("description");
+
+                                    mList.add(new cards(exerciseName, convertToList(muscles), description));
+                                }
+
+                                mAdapter = new Adapter(MainScreen.this, mList);
+                                mRecyclerView.setAdapter(mAdapter);
+                                mAdapter.setOnItemClickListener(MainScreen.this);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    error.printStackTrace();
+                }
+            });
+            mQueue.add(request);
+        }
 
     }
     public ArrayList<Integer> convertToList(JSONArray array) throws JSONException {
@@ -110,5 +110,17 @@ public class MainScreen extends AppCompatActivity {
             }
         }
         return list;
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent detailIntent = new Intent(this, DetailActivity.class);
+        cards clickedItem = mList.get(position);
+
+        detailIntent.putExtra(EXTRA_EXERCISES, clickedItem.getExercise());
+        detailIntent.putExtra(EXTRA_MUSCLES, clickedItem.getMuscle());
+        detailIntent.putExtra(EXTRA_DESCRIPTION, clickedItem.getDescription());
+
+        startActivity(detailIntent);
     }
 }

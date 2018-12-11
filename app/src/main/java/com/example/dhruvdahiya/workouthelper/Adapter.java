@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,15 @@ import java.util.ArrayList;
 public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     private Context mContext;
     private ArrayList<cards> mList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
 
     public Adapter(Context context, ArrayList<cards> cardList) {
         mContext = context;
@@ -45,11 +55,26 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
     public class viewHolder extends RecyclerView.ViewHolder {
         public TextView mTextViewMuscle;
         public TextView mTextViewExercise;
+        public TextView mTextViewDescription;
 
         public viewHolder(@NonNull View itemView) {
             super(itemView);
             mTextViewExercise = itemView.findViewById(R.id.card_exercise);
             mTextViewMuscle = itemView.findViewById(R.id.card_muscle);
+            mTextViewDescription = itemView.findViewById(R.id.text_view_description_detail);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mListener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
     public String toText(ArrayList<Integer> array) {
