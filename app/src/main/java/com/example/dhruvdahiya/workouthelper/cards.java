@@ -8,11 +8,13 @@ public class cards {
     private String mExercise;
     private String mDescription;
     private String mImageUrl;
+    private int mId;
 
-    public cards(String exercise, ArrayList<Integer> muscle, String description) {
+    public cards(String exercise, ArrayList<Integer> muscle, String description, int id) {
        mMuscle = muscle;
        mExercise = exercise;
        mDescription = description;
+       mId = id;
     }
     public ArrayList<Integer> getMuscle() {
         return mMuscle;
@@ -22,5 +24,8 @@ public class cards {
     }
     public String getDescription() {
         return mDescription;
+    }
+    public int getId() {
+        return mId;
     }
 }

@@ -32,6 +32,7 @@ public class MainScreen extends AppCompatActivity implements Adapter.OnItemClick
     public static final String EXTRA_EXERCISES = "name";
     public static final String EXTRA_MUSCLES = "muscles";
     public static final String EXTRA_DESCRIPTION = "description";
+    public static final String EXTRA_ID = "id";
 
     private RequestQueue mQueue;
     private RecyclerView mRecyclerView;
@@ -77,8 +78,9 @@ public class MainScreen extends AppCompatActivity implements Adapter.OnItemClick
                                     JSONArray muscles = results.getJSONArray("muscles");
                                     String exerciseName = results.getString("name");
                                     String description = results.getString("description");
+                                    int exerciseId = results.getInt("id");
 
-                                    mList.add(new cards(exerciseName, convertToList(muscles), description));
+                                    mList.add(new cards(exerciseName, convertToList(muscles), description, exerciseId));
                                 }
 
                                 mAdapter = new Adapter(MainScreen.this, mList);
@@ -120,6 +122,7 @@ public class MainScreen extends AppCompatActivity implements Adapter.OnItemClick
         detailIntent.putExtra(EXTRA_EXERCISES, clickedItem.getExercise());
         detailIntent.putExtra(EXTRA_MUSCLES, clickedItem.getMuscle());
         detailIntent.putExtra(EXTRA_DESCRIPTION, clickedItem.getDescription());
+        detailIntent.putExtra(EXTRA_ID, clickedItem.getId());
 
         startActivity(detailIntent);
     }
