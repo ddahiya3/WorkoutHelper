@@ -3,6 +3,8 @@ package com.example.dhruvdahiya.workouthelper;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,29 +21,41 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 
 public class MainScreen extends AppCompatActivity {
     private static final String LOG_TAG = MainScreen.class.getSimpleName();
 
-    private TextView mTextViewResult;
     private RequestQueue mQueue;
+    private RecyclerView mRecyclerView;
+    private Adapter mAdapter;
+    private ArrayList<cards> mList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_screen);
+        setContentView(R.layout.search_display_page);
 
-        mTextViewResult = findViewById(R.id.editText);
-        Button enterButton = (Button) findViewById(R.id.enter);
+        mRecyclerView = findViewById(R.id.recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mList = new ArrayList<>();
+
         mQueue = Volley.newRequestQueue(this);
+
+        jsonParse();
+        /**
+        Button enterButton = (Button) findViewById(R.id.enter);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //openSearchDisplayPage();
-                jsonParse();
             }
         });
+         **/
     }
 
     /** Called when the user taps the ENTER button */
@@ -61,12 +75,17 @@ public class MainScreen extends AppCompatActivity {
                             JSONArray jsonArray = response.getJSONArray("results");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject result = jsonArray.getJSONObject(i);
+                                JSONObject results = jsonArray.getJSONObject(i);
 
-                                int id = result.getInt("id");
+                                JSONArray muscles = results.getJSONArray("muscles");
+                                String exerciseName = results.getString("name");
 
-                                mTextViewResult.append(String.valueOf(id) + "\n");
+                                mList.add(new cards(exerciseName, convertToList(muscles)));
                             }
+
+                            mAdapter = new Adapter(MainScreen.this, mList);
+                            mRecyclerView.setAdapter(mAdapter);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -79,5 +98,17 @@ public class MainScreen extends AppCompatActivity {
         });
         mQueue.add(request);
 
+    }
+    public ArrayList<Integer> convertToList(JSONArray array) throws JSONException {
+        ArrayList<Integer> list = new ArrayList<>();
+
+        if (array != null) {
+
+            for (int i = 0;i < array.length();i++){
+                Integer thing = (Integer) array.get(i);
+                list.add(thing);
+            }
+        }
+        return list;
     }
 }
