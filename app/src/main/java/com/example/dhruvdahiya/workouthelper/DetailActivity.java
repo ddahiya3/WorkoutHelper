@@ -42,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
 
         mQueue = Volley.newRequestQueue(this);
 
-        jsonParse();
+        //jsonParse();
 
         Intent intent = getIntent();
         String exercises = intent.getStringExtra(EXTRA_EXERCISES);
@@ -62,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
 
     }
     public void jsonParse() {
-            String url = "https://wger.de/api/v2/exercise/?language=2&page=" + i + "&status=2";
+            String url = "https://wger.de/api/v2/exercise/?language=2&page=&status=2";
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                     new Response.Listener<JSONObject>() {

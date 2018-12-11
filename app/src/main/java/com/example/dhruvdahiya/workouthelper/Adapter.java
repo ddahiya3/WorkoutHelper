@@ -52,6 +52,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.viewHolder> {
         return mList.size();
     }
 
+    public void filterList(ArrayList<cards> filteredList) {
+        mList = filteredList;
+        notifyDataSetChanged();
+    }
+
     public class viewHolder extends RecyclerView.ViewHolder {
         public TextView mTextViewMuscle;
         public TextView mTextViewExercise;
