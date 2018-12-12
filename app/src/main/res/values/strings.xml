@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">WorkoutHelper</string>
-    <string name="WelcomeMessage">Welcome To WorkoutHelper</string>
+    <string name="WelcomeMessage">WorkoutHelper™</string>
     <string name="search_button">ENTER</string>
     <string name="searchresults">Search Results</string>
     <string name="goback">GO BACK</string>
+    <string name="quote">Sculpt Your Body</string>
 </resources>

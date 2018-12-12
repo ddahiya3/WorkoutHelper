@@ -1,6 +1,7 @@
 package com.example.dhruvdahiya.workouthelper;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class MainScreen extends AppCompatActivity implements Adapter.OnItemClickListener {
+    private static int SPLASH_TIMEOUT = 2000;
     private static final String LOG_TAG = MainScreen.class.getSimpleName();
 
     public static final String EXTRA_URL = "image";
@@ -42,10 +44,31 @@ public class MainScreen extends AppCompatActivity implements Adapter.OnItemClick
     private Adapter mAdapter;
     private ArrayList<cards> mList;
 
+
+    /**
+     * new Handler().postDelayed(new Runnable() {
+     *             @Override
+     *             public void run() {
+     *                 Intent homeIntent = new Intent(MainScreen.this,HomeScreen.class);
+     *                 startActivity(homeIntent);
+     *                 finish();
+     *             }
+     *         } ,SPLASH_TIMEOUT);
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.search_display_page);
+        /**new Handler().postDelayed(new Runnable() {
+                @Override
+                  public void run() {
+                      Intent homeIntent = new Intent(MainScreen.this,HomeScreen.class);
+                      startActivity(homeIntent);
+                      finish();
+                  }
+              } ,SPLASH_TIMEOUT);
+         */
         EditText editText = findViewById(R.id.editTexts);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
